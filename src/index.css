@@ -1,0 +1,56 @@
+@import url("https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  font-family: "Comfortaa", "Poppins", sans-serif;
+  background-color: transparent;
+  scroll-behavior: smooth;
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body::-webkit-scrollbar {
+  @apply lg:w-[6px] bg-[#1a202c];
+}
+body::-webkit-scrollbar-thumb {
+  @apply bg-[#8892b0] rounded-full;
+}
+
+.bg-light-gradient {
+  background: linear-gradient(
+    144.39deg,
+    #1a202c -78.47%,
+    #ffffff -278.56%,
+    #e5e7eb 91.61%
+  );
+}
+
+.blue__gradient {
+  background: linear-gradient(180deg, rgba(62, 241, 182, 0) 0%, #99e2c0 100%);
+  filter: blur(123px);
+}
+
+.pink__gradient {
+  background: linear-gradient(90deg, #f4c4f3 0%, #fcc4fb 100%);
+  filter: blur(900px);
+}
+
+.white__gradient {
+  background: rgba(255, 255, 255, 0.6);
+  filter: blur(750px);
+}
+
+.img-rotate{
+  animation: rotate-anim 5s infinite forwards;
+}
+
+@keyframes rotate-anim {
+  100%{
+    transform: rotateZ(360deg);
+  }
+}
