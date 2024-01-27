@@ -1,22 +1,28 @@
-import { Route, Routes } from "react-router-dom"
-import {Login} from "./screens/Login"
-import Dashboard from "./screens/Dashboard"
+import { Navigate, Route, Routes } from "react-router-dom";
+import { Login } from "./screens/Login";
+import Dashboard from "./screens/Dashboard";
+import PostView from "./screens/dashboard-components/middlescreen/post/PostView";
+import NewItem from "./screens/NewItem";
+import ItemDetails from "./screens/ItemDetails";
+import UserProfile from "./screens/UserProfile";
+// import MarketPlace from "./screens/MarketPlace";
 
 const Routs = () => {
   return (
-    <div className="h-full">
-      <div className="flex w-full">
-        <div className="w-full">
           <div className="w-full">
             <Routes>
-              <Route path="/" element={<Login/>}/>
-              <Route path="/dashboard" element={<Dashboard/>}/>
+              <Route path="/login" element={<Login />} />
+              <Route path="/" element={<Dashboard />}>
+                <Route index element={<PostView />} />
+                <Route path="/itemdetails" element={<ItemDetails />} />
+                <Route path="/profile" element={<UserProfile />} />
+                {/* <Route path="/market" element={<MarketPlace />} /> */}
+              </Route>
+              <Route path="/new-item" element={<NewItem/>}/>
+              <Route path="*" element={<Navigate to="/" />} />
             </Routes>
           </div>
-        </div>
-      </div>
-    </div>
-  )
-}
+  );
+};
 
-export default Routs
+export default Routs;
