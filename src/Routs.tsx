@@ -2,9 +2,9 @@ import { Navigate, Route, Routes } from "react-router-dom";
 import { Login } from "./screens/Login";
 import Dashboard from "./screens/Dashboard";
 import PostView from "./screens/dashboard-components/middlescreen/post/PostView";
-import NewItem from "./screens/NewItem";
 import ItemDetails from "./screens/ItemDetails";
 import UserProfile from "./screens/UserProfile";
+import NewItem from "./screens/dashboard-components/NewItem";
 // import MarketPlace from "./screens/MarketPlace";
 
 const Routs = () => {

@@ -28,6 +28,7 @@ const InputWithHelp: React.FC<{
   placeholder: string;
   inputType: string;
   showhelp: boolean;
+  error: any
 }> = (props) => {
   return (
     <div className="flex flex-col gap-[2px] mt-5">
@@ -47,7 +48,7 @@ const InputWithHelp: React.FC<{
           <IoHelp className="w-[28px] h-[28px] cursor-help rounded-full bg-gray-400 text-white p-1 font-poppins" />
         )}
       </div>
-      <p></p>
+      <p className="text-red-500 text-xs italic">{props.error}</p>
     </div>
   );
 };
