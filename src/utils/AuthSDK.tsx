@@ -1,3 +1,5 @@
+import Cookies from "js-cookie";
+
 export default function AuthSDK() {
   const baseUrl = "http://localhost:2240/api/";
 
@@ -7,7 +9,7 @@ export default function AuthSDK() {
       headers: {
         "Content-Type": "application/json",
       },
-      credentials: 'include',
+      credentials: "include",
       body: JSON.stringify({ email, password }),
     });
 
@@ -20,33 +22,71 @@ export default function AuthSDK() {
     return data;
   };
 
-  const register = async function(fullName:string, email:string, password:string) {
-    const response = await fetch(`${baseUrl}auth/signup`,{
-        method:"POST",
-        headers:{
-            "Content-Type": "application/json",
-        },
-        body:JSON.stringify({fullName, email, password})
+  const register = async function (
+    fullName: string,
+    email: string,
+    password: string
+  ) {
+    const response = await fetch(`${baseUrl}auth/signup`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ fullName, email, password }),
     });
 
-    if(!response.ok){
-        const err = await response.json()
-        throw new Error('Error registering user '+err.message)
+    if (!response.ok) {
+      const err = await response.json();
+      throw new Error("Error registering user " + err.message);
     }
 
-    const data = await response.json()
-    return data
-  }
+    const data = await response.json();
+    return data;
+  };
+
+  const createItem = async (
+    caption: String,
+    description: string,
+    location: string,
+    thumbnails: { url: string }[],
+    tag: string[]
+  ) => {
+    const token = Cookies.get("token");
+    const response = await fetch(`${baseUrl}items/new-item`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+        "Other-Cookie": "value",
+      },
+      credentials: "include",
+      body: JSON.stringify({
+        caption,
+        description,
+        location,
+        thumbnails,
+        tag,
+      }),
+    });
+
+    if (!response.ok) {
+      const err = await response.json();
+      throw new Error("Error registering user " + err.message);
+    }
+
+    const data = await response.json();
+    return data;
+  };
 
   const check = async function (token: string) {
     const response = await fetch(`${baseUrl}auth/active/user`, {
       method: "GET",
       headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`,
-        'Other-Cookie': 'value',
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+        "Other-Cookie": "value",
       },
-      credentials: 'include',
+      credentials: "include",
     });
 
     if (!response.ok) {
@@ -58,5 +98,5 @@ export default function AuthSDK() {
     return data;
   };
 
-  return { check, login, register };
+  return { check, login, register, createItem };
 }

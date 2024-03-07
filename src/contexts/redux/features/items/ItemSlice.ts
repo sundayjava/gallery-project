@@ -16,7 +16,6 @@ type Item = {
   description:string;
   thumbnails: {
     id:string;
-    filename: string;
     url: string;
   }[];
   feedback: {
@@ -25,8 +24,6 @@ type Item = {
   }[];
   tag: string[];
   likes: number[];
-  price: string;
-  slash_price: string;
   views: number;
   rating: number;
 };
@@ -58,7 +55,7 @@ export const fetchItems = createAsyncThunk("item/fetchItems", () => {
     .catch((error) => {
       console.log("Error fetching items", error);
       throw error;
-    });
+    }); 
 });
 
 const itemSlice = createSlice({

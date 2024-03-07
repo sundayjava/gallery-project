@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { CgClose } from "react-icons/cg";
-import { appTitle } from "../constant";
 import { BiEdit } from "react-icons/bi";
 import Cropper from "react-easy-crop";
 
@@ -12,6 +11,7 @@ const ProductImagePopup: React.FC<{
   isOpen: boolean;
   setIsOpen: any;
   myRef: any;
+  sendImagesToParent: (images: ImageValue | null) => void;
 }> = (props) => {
   const [images, setImages] = useState<ImageValue | null>(null);
   const [imageToCrop, setImageToCrop] = useState("");
@@ -20,7 +20,7 @@ const ProductImagePopup: React.FC<{
   const [zoom, setZoom] = useState(1);
   const [aspectRatio, setAspectRatio] = useState(16 / 9);
   const [croppedArea, setCroppedArea] = useState(null);
-  const [imgAfterCrop, setImgAfterCrop] = useState("");
+  const [selectionErr, setSelectionErr] = useState("");
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
@@ -29,8 +29,16 @@ const ProductImagePopup: React.FC<{
       const loadedImgs: ImageValue = Array.from(files).map((file) => ({
         url: URL.createObjectURL(file),
       }));
-      setImages(loadedImgs);
-      setEditingIndex(null);
+
+      if (loadedImgs.length <= 5) {
+        setImages(loadedImgs);
+        setEditingIndex(null);
+      } else {
+        setSelectionErr("You can`t select more than 5 images");
+        setTimeout(() => {
+          setSelectionErr("");
+        }, 3000);
+      }
     }
   };
 
@@ -81,14 +89,17 @@ const ProductImagePopup: React.FC<{
         );
         const dataURL = canvasEle.toDataURL("image/jpeg");
 
-        // setImgAfterCrop(dataURL);
-
         const updatedImages = [...images!];
         updatedImages[editingIndex] = { url: dataURL };
         setImages(updatedImages);
         setImageToCrop("");
       };
     }
+  };
+
+  const handleSend = () => {
+    props.setIsOpen();
+    props.sendImagesToParent(images);
   };
 
   return (
@@ -232,6 +243,12 @@ const ProductImagePopup: React.FC<{
           >
             Choose from Device
           </button>
+
+          <p
+            className={`${
+              selectionErr ? "block" : "hidden"
+            } text-white italic text-[13px] mt-10 bg-red-700 px-5 py-1 rounded-full`}
+          >{`Error: ${selectionErr}`}</p>
         </div>
       )}
       <div className="w-full flex justify-end items-center pb-3 gap-10 px-10">
@@ -244,7 +261,10 @@ const ProductImagePopup: React.FC<{
         >
           Close
         </button>
-        <button className="text-[14px] px-6 py-[2px] rounded-full bg-blue-700 text-white font-bold">
+        <button
+          className="text-[14px] px-6 py-[2px] rounded-full bg-blue-700 text-white font-bold"
+          onClick={handleSend}
+        >
           Next
         </button>
       </div>

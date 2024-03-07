@@ -3,7 +3,6 @@ import { FaChevronCircleLeft, FaChevronCircleRight } from "react-icons/fa";
 
 type SliceElement = {
   id: string;
-  filename: string;
   url: string;
 }[];
 
@@ -31,7 +30,7 @@ export const CustomCarousel: React.FC<{ slice: SliceElement, autoSlide:boolean, 
         }}
       >
         {props.slice.map((s) => (
-          <img src={s.url} className="w-full" />
+          <img src={s.url} className="w-full h-full object-cover" />
         ))}
         {/* {[...props.slice.map((s) => (
           <img src={s.url} className="w-full" />

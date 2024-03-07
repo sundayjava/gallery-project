@@ -30,7 +30,6 @@ type TypeOfData = {
   description: string;
   thumbnails: {
     id:string;
-    filename: string;
     url: string;
   }[];
   feedback: {
@@ -39,8 +38,6 @@ type TypeOfData = {
   }[];
   tag: string[];
   likes: number[];
-  price: string;
-  slash_price: string;
   views: number;
   rating: number;
 };
@@ -70,12 +67,12 @@ const PostCard = (data: TypeOfData) => {
       </div>
       <h4 className="text-[12px] tracking-wider">
         {data.caption} <br />
-        {data.tag.slice(0, 1).map((tag, index) => (
+        {data.tag && data.tag.slice(0, 1).map((tag, index) => (
           <span key={index} className="text-[#ea4335] font-bold">
             #{tag}
           </span>
         ))}{" "}
-        {data.tag.slice(1, 2).map((tag, index) => (
+        {data.tag && data.tag.slice(1, 2).map((tag, index) => (
           <span key={index} className="text-[#fbbc05] font-bold">
             #{tag}
           </span>
@@ -99,17 +96,6 @@ const PostCard = (data: TypeOfData) => {
       </div> */}
 
       <p className="text-[14px] tracking-wider mt-3">{data.description}</p>
-
-      {data.price && (
-        <div className="w-full flex justify-end items-center gap-7">
-          <p className=" text-yellow-900 text-[18px] tracking-wider">
-            ₦{data.price}.00
-          </p>
-          <del className="text-[16px] tracking-wider text-gray-400">
-            ₦{data.slash_price}.00
-          </del>
-        </div>
-      )}
 
       <div className="flex justify-between items-center mt-5">
         <div className="flex items-center justify-start gap-4">
@@ -143,7 +129,7 @@ const PostView = () => {
 
   useEffect(() => {
     dispatch(fetchItems());
-  }, []);
+  }, []); 
 
   return (
     <div className="py-12 flex flex-col gap-5 scroll-pt-20">
